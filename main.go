@@ -175,6 +175,7 @@ func ErrorSwitch() {
 }
 
 // Direct comparison
+// Does not perform a text comparison of the message, so it is important to return and compare the same sentinel error
 func DirectComparison() {
 	if err := ProcessPayment("", 120.00); err != nil {
 		switch err {
