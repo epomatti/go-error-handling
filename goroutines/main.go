@@ -10,7 +10,8 @@ import (
 func main() {
 	// Option 1
 	option1()
-	// Option
+
+	// Option 2
 	option2()
 }
 
