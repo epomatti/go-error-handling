@@ -1,1 +1,5 @@
-Several error samples using Go.
+Several error controls using Go.
+
+Simple CD into the module and run:
+
+  go run .
