@@ -10,7 +10,6 @@ func main() {
 
 	// Ok
 	// transmitOk(c, 5)
-
 }
 
 func transmitWithDeadlock(c chan int, count int) {
