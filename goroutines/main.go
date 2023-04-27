@@ -8,6 +8,14 @@ import (
 )
 
 func main() {
+	// Option 1
+	option1()
+	// Option
+	option2()
+}
+
+// Option 1
+func option1() {
 	dataChan, errChan := readFileContent("sample.txt")
 
 	if err, open := <-errChan; open {
@@ -38,4 +46,32 @@ func readFileContent(path string) (<-chan []byte, <-chan error) {
 	}()
 
 	return dataChan, errChan
+}
+
+// Option 2
+type Result struct {
+	Data []byte
+	Err  error
+}
+
+func option2() {
+	result := readFileContentOption2("sample.txt")
+
+	if result.Err != nil {
+		log.Fatal(result.Err)
+	} else {
+		fmt.Println(string(result.Data))
+	}
+}
+
+func readFileContentOption2(path string) Result {
+	resultChan := make(chan Result)
+
+	go func() {
+		time.Sleep(1 * time.Second)
+		data, err := os.ReadFile(path)
+		resultChan <- Result{Data: data, Err: err}
+	}()
+
+	return <-resultChan
 }
