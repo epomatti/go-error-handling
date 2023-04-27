@@ -11,7 +11,12 @@ func main() {
 	http.HandleFunc("/", handler)
 	http.HandleFunc("/person", handlerPerson)
 	http.HandleFunc("/person-complex", handlerPersonComplex)
-	http.ListenAndServe(":3000", nil)
+
+	err := http.ListenAndServe(":3000", nil)
+
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
