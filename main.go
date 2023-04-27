@@ -147,6 +147,7 @@ func ErrorTypeAssertion() {
 	}
 }
 
+// Detection with errors.As function
 func ErrorBuiltinAs() {
 	err := ProcessPayment("ABC", 120.00)
 	var pmtErr *PaymentError
@@ -159,6 +160,7 @@ func ErrorBuiltinAs() {
 	}
 }
 
+// Detection with switch
 func ErrorSwitch() {
 	if err := ProcessPayment("ABC", 120.00); err != nil {
 		switch e := err.(type) {
@@ -166,8 +168,22 @@ func ErrorSwitch() {
 			fmt.Println("Is a payment error")
 			fmt.Println(e)
 		default:
-			fmt.Println("Is not a payment erro")
+			fmt.Println("Is not a payment error")
 			fmt.Println(e)
+		}
+	}
+}
+
+// Direct comparison
+func DirectComparison() {
+	if err := ProcessPayment("", 120.00); err != nil {
+		switch err {
+		case ErrInvalidPaymentType:
+			fmt.Println("Is an invalid payment reference error")
+			fmt.Println(err)
+		default:
+			fmt.Println("Is not an invalid payment reference error")
+			fmt.Println(err)
 		}
 	}
 }
