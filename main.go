@@ -8,7 +8,7 @@ import (
 
 // Main
 func main() {
-	Recover()
+	ErrorBuiltinAs()
 }
 
 // Error object types: sentinel, customer, wrapping
@@ -136,7 +136,7 @@ func ProcessPayment(ref string, amt float64) error {
 
 // Error detection with assertion
 
-func Something() {
+func ErrorTypeAssertion() {
 	err := ProcessPayment("ABC", 120.00)
 	if errAssert, ok := err.(*PaymentError); ok {
 		fmt.Println("Is a paymento error")
@@ -144,5 +144,30 @@ func Something() {
 	} else {
 		fmt.Println("Is not a payment error")
 		fmt.Println(errAssert)
+	}
+}
+
+func ErrorBuiltinAs() {
+	err := ProcessPayment("ABC", 120.00)
+	var pmtErr *PaymentError
+	if errors.As(err, &pmtErr) {
+		fmt.Println("Is a paymento error")
+		fmt.Println(pmtErr)
+	} else {
+		fmt.Println("Is not a payment error")
+		fmt.Println(err)
+	}
+}
+
+func ErrorSwitch() {
+	if err := ProcessPayment("ABC", 120.00); err != nil {
+		switch e := err.(type) {
+		case *PaymentError:
+			fmt.Println("Is a payment error")
+			fmt.Println(e)
+		default:
+			fmt.Println("Is not a payment erro")
+			fmt.Println(e)
+		}
 	}
 }
