@@ -1,5 +1,12 @@
-Several error controls using Go.
-
-Simple CD into the module and run:
+Several error controls using Go. Simply cd into the desired module and run:
 
   go run .
+
+The following error topics were demostrated via code:
+
+- Standard Go errors
+- Defer, panic, and recover errors
+- Testing errors
+- Custom errors creation and detection
+- HTTP errors
+- Errors with channels and goroutines
