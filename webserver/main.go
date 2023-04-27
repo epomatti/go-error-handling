@@ -3,12 +3,14 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 )
 
 func main() {
 	http.HandleFunc("/", handler)
 	http.HandleFunc("/person", handlerPerson)
+	http.HandleFunc("/person-complex", handlerPersonComplex)
 	http.ListenAndServe(":3000", nil)
 }
 
@@ -37,4 +39,23 @@ func handlerPerson(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	fmt.Fprintf(w, "Person: %+v", p)
+}
+
+type PersonError struct {
+	Error   string `json:"error"`
+	Message string `json:"message"`
+}
+
+func handlerPersonComplex(w http.ResponseWriter, r *http.Request) {
+	pErr := &PersonError{
+		Error:   "Invalid Request",
+		Message: "Name not provided...",
+	}
+
+	w.WriteHeader(http.StatusBadRequest)
+	w.Header().Set("Content-Type", "application/json")
+	err := json.NewEncoder(w).Encode(pErr)
+	if err != nil {
+		log.Println(err)
+	}
 }
