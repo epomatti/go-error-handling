@@ -96,3 +96,53 @@ func Calc(x int, y int) (total int, err error) {
 
 	return x + y, nil
 }
+
+// Custom Error
+type PaymentError struct {
+	Reference string
+	Amount    float64
+	Message   string
+	Timestamp time.Time
+}
+
+func NewPaymentError(ref string, amt float64, msg string) *PaymentError {
+	return &PaymentError{
+		Reference: ref,
+		Amount:    amt,
+		Message:   msg,
+		Timestamp: time.Now(),
+	}
+}
+
+func (e *PaymentError) Error() string {
+	ts := e.Timestamp.Format("2006-01-02 15:04:05")
+
+	return fmt.Sprintf("Payment Error Ref: %s, Amt: %.2f, Msg: %s, Time: %s", e.Reference, e.Amount, e.Message, ts)
+}
+
+var ErrInvalidPaymentType = errors.New("INVALID PAYMENT TYPE") // Sentinel error
+
+func ProcessPayment(ref string, amt float64) error {
+	if ref == "" {
+		return ErrInvalidPaymentType
+	}
+
+	if amt > 100.0 {
+		return NewPaymentError(ref, amt, "Insufficient Funds")
+	}
+
+	return nil
+}
+
+// Error detection with assertion
+
+func Something() {
+	err := ProcessPayment("ABC", 120.00)
+	if errAssert, ok := err.(*PaymentError); ok {
+		fmt.Println("Is a paymento error")
+		fmt.Println(errAssert)
+	} else {
+		fmt.Println("Is not a payment error")
+		fmt.Println(errAssert)
+	}
+}
