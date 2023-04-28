@@ -31,12 +31,3 @@ func Divide(a, b int) (int, error) {
 }
 
 // Complex error type
-type DivisorError struct {
-	Dividend int
-	Divisor  int
-	Msg      string
-}
-
-func (e *DivisorError) Error() string {
-	return e.Msg
-}
