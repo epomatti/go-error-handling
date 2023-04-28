@@ -6,23 +6,25 @@ import (
 )
 
 func main() {
+	err := doSomething()
+	fmt.Println(err)
 
+	theGoWay()
 }
 
-func DoSomething() error {
+func doSomething() error {
 	return errors.New("something didn't work")
 }
 
-// The Go Way
-func TheGoWay() {
-	result, err := Divide(9, 0)
+func theGoWay() {
+	result, err := divide(9, 0)
 	if err != nil {
 		fmt.Println(err)
 	}
 	fmt.Println(result)
 }
 
-func Divide(a, b int) (int, error) {
+func divide(a, b int) (int, error) {
 	if b == 0 {
 		return 0, fmt.Errorf("THE DIVISOR CANNOT BE ZERO")
 	}
