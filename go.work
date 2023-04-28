@@ -10,5 +10,6 @@ use (
 	./outbound
 	./panic-recover
 	./testing
+	./waitgroups
 	./wrapping
 )
