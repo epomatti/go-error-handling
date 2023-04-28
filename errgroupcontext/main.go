@@ -17,10 +17,10 @@ func main() {
 		"error.txt",
 	}
 
-	ctx, _ := context.WithTimeout(context.Background(), time.Duration(5*time.Second))
+	ctx, cancel := context.WithTimeout(context.Background(), time.Duration(5*time.Second))
+	defer cancel()
 
 	errGroupContext(ctx, files)
-
 }
 
 func errGroupContext(ctx context.Context, files []string) {
