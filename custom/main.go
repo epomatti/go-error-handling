@@ -7,8 +7,13 @@ import (
 )
 
 func main() {
-	// ...
-	ErrorBuiltinAs()
+	errorTypeAssertion()
+
+	errorBuiltinAs()
+
+	errorSwitch()
+
+	directComparison()
 }
 
 // Custom Error
@@ -19,7 +24,7 @@ type PaymentError struct {
 	Timestamp time.Time
 }
 
-func NewPaymentError(ref string, amt float64, msg string) *PaymentError {
+func newPaymentError(ref string, amt float64, msg string) *PaymentError {
 	return &PaymentError{
 		Reference: ref,
 		Amount:    amt,
@@ -36,13 +41,13 @@ func (e *PaymentError) Error() string {
 
 var ErrInvalidPaymentType = errors.New("INVALID PAYMENT TYPE") // Sentinel error
 
-func ProcessPayment(ref string, amt float64) error {
+func processPayment(ref string, amt float64) error {
 	if ref == "" {
 		return ErrInvalidPaymentType
 	}
 
 	if amt > 100.0 {
-		return NewPaymentError(ref, amt, "Insufficient Funds")
+		return newPaymentError(ref, amt, "Insufficient Funds")
 	}
 
 	return nil
@@ -50,8 +55,8 @@ func ProcessPayment(ref string, amt float64) error {
 
 // Error detection with assertion
 
-func ErrorTypeAssertion() {
-	err := ProcessPayment("ABC", 120.00)
+func errorTypeAssertion() {
+	err := processPayment("ABC", 120.00)
 	if errAssert, ok := err.(*PaymentError); ok {
 		fmt.Println("Is a paymento error")
 		fmt.Println(errAssert)
@@ -62,8 +67,8 @@ func ErrorTypeAssertion() {
 }
 
 // Detection with errors.As function
-func ErrorBuiltinAs() {
-	err := ProcessPayment("ABC", 120.00)
+func errorBuiltinAs() {
+	err := processPayment("ABC", 120.00)
 	var pmtErr *PaymentError
 	if errors.As(err, &pmtErr) {
 		fmt.Println("Is a paymento error")
@@ -75,8 +80,8 @@ func ErrorBuiltinAs() {
 }
 
 // Detection with switch
-func ErrorSwitch() {
-	if err := ProcessPayment("ABC", 120.00); err != nil {
+func errorSwitch() {
+	if err := processPayment("ABC", 120.00); err != nil {
 		switch e := err.(type) {
 		case *PaymentError:
 			fmt.Println("Is a payment error")
@@ -90,8 +95,8 @@ func ErrorSwitch() {
 
 // Direct comparison
 // Does not perform a text comparison of the message, so it is important to return and compare the same sentinel error
-func DirectComparison() {
-	if err := ProcessPayment("", 120.00); err != nil {
+func directComparison() {
+	if err := processPayment("", 120.00); err != nil {
 		switch err {
 		case ErrInvalidPaymentType:
 			fmt.Println("Is an invalid payment reference error")
