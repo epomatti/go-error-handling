@@ -4,6 +4,7 @@ use (
 	./custom
 	./errgroupcontext
 	./errgroups
+	./format
 	./panic-recover
 	./testing
 )
