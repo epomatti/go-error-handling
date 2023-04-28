@@ -8,6 +8,7 @@ use (
 	./errgroupcontext
 	./errgroups
 	./format
+	./goroutines
 	./outbound
 	./panic-recover
 	./testing

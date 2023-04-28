@@ -42,8 +42,8 @@ func readFileContent(path string) (<-chan []byte, <-chan error) {
 			dataChan <- data
 		}
 
-		close(dataChan)
-		close(errChan)
+		close(dataChan) // defer?
+		close(errChan)  // defer?
 	}()
 
 	return dataChan, errChan
@@ -67,6 +67,7 @@ func option2() {
 
 func readFileContentOption2(path string) Result {
 	resultChan := make(chan Result)
+	defer close(resultChan) // close should be here?
 
 	go func() {
 		time.Sleep(1 * time.Second)
