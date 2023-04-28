@@ -5,13 +5,15 @@ import "fmt"
 func main() {
 
 	// Deadlock
-	c := make(chan int, 2)
-	transmitWithDeadlock(c, 5)
+	// c := make(chan int, 2)
+	// transmitWithDeadlock(c, 5)
 
 	// Ok
-	// transmitOk(c, 5)
+	c := make(chan int, 2)
+	transmitOk(c, 5)
 }
 
+//lint:ignore U1000 whatever
 func transmitWithDeadlock(c chan int, count int) {
 	for i := 0; i < count; i++ {
 		c <- 1
